@@ -18,6 +18,23 @@
 - JavaScript
 - TailwindCSS
 
+## スクリーンショット
+
+### ホーム画面
+
+![ホーム画面](screenshots/home.png)
+引用文のタイムライン表示。フォロー/アンフォロー機能搭載。
+
+### 引用登録
+
+![引用登録](screenshots/quote_create.png)
+本を選択し、該当ページと引用文を登録。
+
+### 本の登録
+
+![本の登録](screenshots/book_create.png)
+書籍情報（タイトル、著者、ISBN、カテゴリ）を管理。
+
 ## セットアップ
 
 ### 1. リポジトリをクローン

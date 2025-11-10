@@ -10,7 +10,10 @@ if (good_btn) {
   });
 }
 
-const API_KEY = "AIzaSyB9wr12PfWwfdEI1Aeat3yttE0_tUZls_A";
+// タイトル補完を実装予定
+// いったん空にしておくが使用する際に入力し*の方を有効にする
+const API_KEY = "";
+// const API_KEY = "YOUR_API_KEY_HERE" --- * ;
 
 // 本の登録・タイトル補完表示
 bookTitle = document.querySelector(".book-title");
@@ -18,6 +21,7 @@ if (bookTitle) {
   bookTitle.addEventListener("input", async function (e) {
     e.preventDefault();
     try {
+      // いったん空にしておく
       const response = await fetch(
         `https://www.googleapis.com/books/v1/volumes?q=${keyword}+inauthor:${author}&key=${API_KEY}`
       );
@@ -29,7 +33,7 @@ if (bookTitle) {
       console.log("Error", error);
     }
     // ここで非同期処理を書く
-    return None;
+    return null;
   });
 }
 // 本の登録・著者名の補完表示
@@ -38,6 +42,6 @@ if (bookAuthor) {
   bookAuthor.addEventListener("input", function (e) {
     e.preventDefault();
     // ここで非同期処理を書く
-    return None;
+    return null;
   });
 }
