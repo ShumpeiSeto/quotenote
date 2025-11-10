@@ -93,7 +93,7 @@ python manage.py runserver
 ## 今後の実装予定
 
 - GoogleBooksAPI を使ったタイトル入力補完と著者入力補完
-- 全文検索機能
+- PostgreSQL に変更(全文検索機能有のため)
 - レコメンド機能
 
 ## 作者
