@@ -1,0 +1,45 @@
+{% extends 'quotes/base.html' %}
+
+{% block title %}引用削除 - PEIPEIの引用コレクション{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">🗑️ 引用削除</h2>
+    
+    <div class="bg-white rounded-lg shadow-md p-8">
+        <!-- 警告メッセージ -->
+        <div class="bg-red-50 border-l-4 border-red-500 p-6 mb-6">
+            <div class="flex items-center mb-2">
+                <svg class="w-6 h-6 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                <p class="text-red-700 font-bold">本当に削除しますか？</p>
+            </div>
+            <p class="text-red-600">この操作は取り消せません。</p>
+        </div>
+        
+        <!-- 引用情報 -->
+        <div class="bg-gray-50 p-6 rounded-lg mb-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ quote.title }}</h3>
+            <p class="text-gray-600 text-sm mb-4">{{ quote.created_at|date:"Y年m月d日 H:i" }}</p>
+            <p class="text-gray-700">{{ quote.content|truncatewords:30 }}</p>
+        </div>
+        
+        <!-- 削除フォーム -->
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            
+            <div class="flex space-x-4">
+                <button type="submit" 
+                        class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 font-bold">
+                    削除する
+                </button>
+                <a href="{% url 'quotes:detail' quote.pk %}" 
+                   class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 font-bold">
+                    キャンセル
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

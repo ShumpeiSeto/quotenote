@@ -1,0 +1,80 @@
+{% extends 'quotes/base.html' %}
+
+{% block title %}本の登録 - PEIPEIの引用コレクション{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl m-auto p-auto">
+    <h2 class="text-3xl font-bold text-gray-100 m-4">📚 本を登録</h2>
+    
+    <div class="bg-gray-100 rounded-lg shadow-md p-8">
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+            <p class="text-blue-700">
+             本を登録します。登録するとお気に入りの引用を記録できます。
+            </p>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="space-y-6">
+                <!-- タイトル -->
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">本のタイトル</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.title.errors }}</p>
+                    {% endif %}
+                </div>
+                
+                <!-- 著者 -->
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">著者</label>
+                    {{ form.author }}
+                    {% if form.author.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.author.errors }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- isbn (option) -->
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">ISBN</label>
+                    {{ form.isbn }}
+                    {% if form.isbn.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.isbn.errors }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- 本へのリンク -->
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">リンク</label>
+                    {{ form.url }}
+                    {% if form.url.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.url.errors }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- 本へのカテゴリー -->
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">カテゴリー</label>
+                    {{ form.category }}
+                    {% if form.category.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.category.errors }}</p>
+                    {% endif %}
+                </div>
+                
+                <!-- ボタン -->
+                <div class="flex space-x-4">
+                    <button type="submit" 
+                            class="flex-1 bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 font-bold">
+                        作成する
+                    </button>
+                    <a href="{% url 'quotes:index' %}" 
+                       class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 font-bold text-center">
+                        キャンセル
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

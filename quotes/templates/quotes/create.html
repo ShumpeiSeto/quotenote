@@ -1,0 +1,51 @@
+{% extends "quotes/base.html" %}
+
+{% block title %}引用作成 - PEIPEIの引用コレクション{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl m-auto p-auto">
+  <h2 class="text-3xl font-bold text-gray-100 mb-6">📋️新規引用作成</h2>
+  <div class="bg-gray-100 rounded-lg shadow-md p-8">
+    <form action="" method="post">
+    {% csrf_token %}
+      <div class="space-y-6">
+        <!-- 本を選択 -->
+        <div>
+          <label class="block text-gray-700 font-bold mb-2">本を選択</label>
+          {{ form.book }}
+          {% if form.book.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.book.errors }}</p>
+          {% endif %}
+        </div>
+        <!-- ページ -->
+        <div>
+          <label class="block text-gray-700 font-bold mb-2">該当ページ</label>
+          {{ form.page }}
+          {% if form.page.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.page.errors }}</p>
+          {% endif %}
+        </div>
+        <!-- 引用内容 -->
+        <div>
+          <label class="block text-gray-700 font-bold mb-2">引用を書く</label>
+          {{ form.content }}
+          {% if form.content.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.content.errors }}</p>
+          {% endif %}
+        </div>
+
+        <!-- ボタン -->
+        <div class="flex space-x-4">
+          <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 font-bold">
+            作成する
+          </button>
+          <a href="{% url 'quotes:index' %}" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 font-bold">
+          キャンセル
+          </a>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

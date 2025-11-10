@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
+    <script src="{% static 'quotes/js/scripts.js' %}" defer></script>
+    <title>{% block title %}QuoteNote{% endblock %}</title>
+</head>
+<body class="bg-gray-900 min-h-screen text-gray-100">
+    <!-- ヘッダー -->
+    <header class="sticky top-0 z-50 bg-gradient-to-r from-blue-900 to-purple-900 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <!-- ロゴ -->
+                <a href="{% url 'quotes:index' %}" class="text-2xl font-bold hover:text-gray-200 transition">
+                    📚 QuoteNote
+                </a>
+                
+                <!-- ナビゲーション -->
+                <nav>
+                    <ul class="flex space-x-4 list-none items-center">
+                        {% if user.is_authenticated %}
+                            <!-- ホーム -->
+                            <li>
+                                <a href="{% url 'quotes:index' %}" 
+                                   class="text-white hover:text-gray-200 px-3 py-2 rounded transition font-medium">
+                                    🏠 ホーム
+                                </a>
+                            </li>
+                            
+                            <!-- フォロー中 -->
+                            <li>
+                                <a href="{% url 'quotes:follow-list' %}" 
+                                   class="text-white hover:text-gray-200 px-3 py-2 rounded transition font-medium">
+                                    👥 フォロー中
+                                </a>
+                            </li>
+                            
+                            <!-- 引用の登録 -->
+                            <li>
+                                <a href="{% url 'quotes:create' %}" 
+                                   class="text-white bg-green-600 hover:bg-green-500 px-4 py-2 rounded transition font-medium">
+                                    ✍️ 引用登録
+                                </a>
+                            </li>
+                            
+                            <!-- 本の登録 -->
+                            <li>
+                                <a href="{% url 'quotes:createbook' %}" 
+                                   class="text-white bg-purple-600 hover:bg-purple-500 px-4 py-2 rounded transition font-medium">
+                                    📖 本登録
+                                </a>
+                            </li>
+                            
+                            <!-- ユーザー名表示 -->
+                            <li>
+                                <span class="text-white bg-blue-600 px-4 py-2 rounded font-medium">
+                                    🧔 {{ user.username }}
+                                </span>
+                            </li>
+                            
+                            <!-- ログアウト -->
+                            <li>
+                                <form method="post" action="{% url 'quotes:logout' %}" class="inline">
+                                    {% csrf_token %}
+                                    <button type="submit" 
+                                            class="text-white bg-red-600 hover:bg-red-500 px-4 py-2 rounded transition font-medium">
+                                        🚪 ログアウト
+                                    </button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <!-- ログインしていない場合 -->
+                            <li>
+                                <span class="text-white bg-gray-500 px-4 py-2 rounded font-medium">
+                                    🧔 ゲストさん
+                                </span>
+                            </li>
+                            <li>
+                                <a href="{% url 'login' %}" 
+                                   class="text-white bg-green-600 hover:bg-green-500 px-4 py-2 rounded transition font-medium">
+                                    🔑 ログイン
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'quotes:signup' %}" 
+                                   class="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded transition font-medium">
+                                    📝 新規登録
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- ヒーローセクション（動画背景） -->
+    <section class="relative h-96 bg-gray-900 overflow-hidden">
+        <!-- 背景動画 -->
+        <video 
+            autoplay 
+            loop 
+            muted 
+            playsinline
+            class="absolute top-0 left-0 w-full h-full object-cover opacity-50"
+        >
+            <source src="{% static 'quotes/video/title_movie.mp4' %}" type="video/mp4" />
+        </video>
+        
+        <!-- グラデーションオーバーレイ -->
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-gray-900 opacity-70"></div>
+        
+        <!-- コンテンツ -->
+        <div class="relative z-10 flex items-center justify-center h-full text-center text-white px-4">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 drop-shadow-2xl">
+                    Notes and Find your favorite Quotes.
+                </h1>
+                <p class="text-xl md:text-2xl drop-shadow-lg">
+                    心に残る言葉を、いつでも振り返れるように
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- メッセージ表示 -->
+    {% if messages %}
+        <div class="container mx-auto px-4 mt-6">
+            {% for message in messages %}
+                <div class="bg-blue-500 bg-opacity-20 border-l-4 border-blue-500 text-blue-200 p-4 mb-4 rounded-lg shadow-lg">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- メインコンテンツ -->
+    <main class="container mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- フッター -->
+    <footer class="bg-gradient-to-r from-blue-900 to-purple-900 text-white text-center py-6 mt-12">
+        <p class="text-sm">&copy; 2025 QuoteNote - All rights reserved</p>
+        <p class="text-xs mt-2 text-gray-300">心に残る言葉を集めよう</p>
+    </footer>
+
+</body>
+</html>

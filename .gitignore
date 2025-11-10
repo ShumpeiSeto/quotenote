@@ -1,0 +1,24 @@
+# Python関連
+*.py[cod]
+*$py.class
+__pycache__/
+*.so
+
+# 仮想環境
+venv/
+
+# Django関連
+*.log
+db.sqlite3
+db.sqlite3-journal
+
+# 環境変数・機密情報
+.env
+*.secret
+
+# メディアファイル（大きい場合）
+# 今のところ5MB程度なので無視するが大きくなった場合に考慮する
+
+# OS関連
+.DS_Store
+Thumbs.db

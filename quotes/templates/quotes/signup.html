@@ -1,0 +1,78 @@
+{% extends 'quotes/base.html' %}
+
+{% block title %}新規登録 - QuoteNote{% endblock %}
+
+{% block content %}
+<div class="max-w-xl m-auto p-auto">
+    <h2 class="text-3xl font-bold text-gray-100 mb-6 text-center">📝 新規登録</h2>
+    
+    <div class="bg-gray-100 rounded-lg shadow-md p-8">
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="space-y-6">
+                <!-- ユーザー名 -->
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">ユーザー名</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.username.errors.0 }}</p>
+                    {% endif %}
+                    <!--
+                    <p class="text-gray-500 text-xs mt-1">150文字以内。英数字と @/./+/-/_ のみ使用可能。</p>
+                    -->
+                </div>
+                
+                <!-- パスワード -->
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">パスワード</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        {% for error in form.password1.errors %}
+                            <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    <!--
+                    <p class="text-gray-500 text-xs mt-1">
+                        • 8文字以上<br>
+                        • 一般的すぎるパスワードは使えません<br>
+                        • 数字だけのパスワードは使えません
+                    </p>
+                    -->
+                </div>
+                
+                <!-- パスワード（確認） -->
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">パスワード（確認）</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.password2.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <!-- ボタン -->
+                <div class="flex space-x-4">
+                    <button type="submit" 
+                            class="flex-1 bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 font-bold">
+                        登録する
+                    </button>
+                    <a href="{% url 'quotes:index' %}" 
+                       class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 font-bold text-center">
+                        キャンセル
+                    </a>
+                </div>
+            </div>
+        </form>
+        
+        <!-- ログインリンク -->
+        <div class="mt-6 text-center">
+            <p class="text-gray-600">
+                既にアカウントをお持ちの方は
+                <a href="{% url 'login' %}" class="text-blue-600 hover:underline font-bold">
+                    こちらからログイン
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

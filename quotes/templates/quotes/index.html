@@ -1,0 +1,153 @@
+{% extends "quotes/base.html" %}
+
+{% block title %}引用一覧 - PEIPEIの引用{% endblock %}
+
+{% block content %}
+
+{% if quotes %}
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {% for quote in quotes %}
+    <article class="max-w-sm bg-gray-100 rounded round-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden p-6 mb-4 item-{{ quote.pk }}">
+      <div class="p-6">
+        <!-- タイトル -->
+        <h2 class="text-2xl font-bold text-gray-800 mb-3 hover:text-blue-600 transition-colors text-center">
+        <a href="{% url 'quotes:detail' quote.pk %}">
+        {{ quote.content|truncatechars:50 }}
+        </a>
+        </h2>
+        <p class="text-gray-700 text-lg leading-relaxed mb-4">{{ quote.book.title }} ({{ quote.book.author }}) より</p>
+        <!-- メタ情報 -->
+        <div class="flex items-center text-gray-500 text-sm mb-4 space-x-4">
+          <!-- フィルターdateは空白は入れない-->
+          <span class="flex items-center user-trigger"
+                data-user-id="{{ quote.user.pk }}"
+                data-username="{{ quote.user.username }}"
+                data-email="{{ quote.user.email|default:'未設定' }}"
+                data-post-count="{{ quote.user.quote_set.count }}"
+                data-follow-url="{% url 'quotes:follow-toggle' quote.user.pk %}">
+          🤵 {{ quote.user }}</span>
+          <span class="flex items-center">{{ quote.created_at|date:"Y年m月d日 H:i" }}</span>
+          <span class="flex items-center">{{ quote.content|length }}文字</span>
+        </div>
+      </div>
+      <!-- 本文プレビュー -->
+      <!--
+      <div class="content p-0 m-2">
+      </div>
+      -->
+      <a href="{% url 'quotes:detail' quote.pk %}" class="inline-flex items-center text-blue-600 hover:text-blue-800">
+        続きを読む
+        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+      <!--
+      {% if quote.user in connection.0.follow.all %}
+      <a href="{% url 'quotes:follow-home' quote.id %}" class="px-4 py-2 bg-red-500 hover:bg-red-400 rounded">フォロー解除</a>
+      {% else %}
+      <a href="{% url 'quotes:follow-home' quote.id %}" class="px-4 py-2 bg-green-500 hover:bg-green-400 rounded">フォロー</a>
+      {% endif %}
+      -->
+    </article>
+    {% endfor %}
+  </div>
+<!-- ホバーカード（既存のまま） -->
+<div id="userHoverCard" 
+     class="absolute hidden bg-gray-900 border border-gray-600 rounded-lg shadow-2xl p-5 w-72"
+     style="z-index: 9999;">
+    
+    <div class="flex items-center gap-3 mb-3">
+        <div id="userAvatar" 
+             class="bg-gradient-to-br from-blue-500 to-purple-600 text-white w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold shadow-lg">
+        </div>
+        <div>
+            <p id="userName" class="text-white font-bold text-base"></p>
+            <p id="userEmail" class="text-gray-400 text-xs"></p>
+        </div>
+    </div>
+    
+    <div class="flex gap-4 mb-4 text-xs">
+        <div class="text-center">
+            <p id="postCount" class="text-white font-bold text-lg">0</p>
+            <p class="text-gray-400">投稿</p>
+        </div>
+        <div class="text-center">
+            <p class="text-white font-bold text-lg">0</p>
+            <p class="text-gray-400">フォロワー</p>
+        </div>
+    </div>
+    
+    <a id="unfollowBtn" href="#" 
+       class="block w-full text-center bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg transition font-medium shadow-lg">
+        フォロー解除
+    </a>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const hoverCard = document.getElementById("userHoverCard");
+  const triggers = document.querySelectorAll(".user-trigger");
+  
+  let hideTimeout;
+  
+  triggers.forEach((trigger, index) => {
+    trigger.addEventListener("mouseenter", function (e) {
+      clearTimeout(hideTimeout);
+      
+      // data属性からデータを取得
+      const username = this.dataset.username;
+      const email = this.dataset.email;
+      const postCount = this.dataset.postCount;
+      const followUrl = this.dataset.followUrl;
+      
+      // カードに情報をセット
+      document.getElementById("userAvatar").textContent = username.charAt(0).toUpperCase();
+      document.getElementById("userName").textContent = username;
+      document.getElementById("userEmail").textContent = email;
+      document.getElementById("postCount").textContent = postCount;
+      document.getElementById("unfollowBtn").href = followUrl;
+      
+      // 位置計算
+      const rect = this.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+      
+      let left = rect.left + scrollLeft;
+      let top = rect.bottom + scrollTop + 10;
+      
+      // 画面端チェック
+      const cardWidth = 288;
+      if (left + cardWidth > document.documentElement.scrollWidth) {
+        left = document.documentElement.scrollWidth - cardWidth - 20;
+      }
+      if (left < 10) {
+        left = 10;
+      }
+      
+      hoverCard.style.left = left + "px";
+      hoverCard.style.top = top + "px";
+      hoverCard.classList.remove("hidden");
+    });
+    
+    trigger.addEventListener("mouseleave", function () {
+      hideTimeout = setTimeout(() => {
+        hoverCard.classList.add("hidden");
+      }, 300);
+    });
+  });
+  
+  hoverCard.addEventListener("mouseenter", function () {
+    clearTimeout(hideTimeout);
+  });
+  
+  hoverCard.addEventListener("mouseleave", function () {
+    hoverCard.classList.add("hidden");
+  });
+});
+</script>
+{% else %}
+<div class="bg-yello-50 border-l-4 border-yellow-400 p-6 rounded">
+  <p class="text-yellow-600">まだ引用はありません</p>
+</div>
+{% endif %}
+
+{% endblock %}
