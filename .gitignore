@@ -1,4 +1,5 @@
 # Python関連
+.env
 *.py[cod]
 *$py.class
 __pycache__/
