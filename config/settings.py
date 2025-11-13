@@ -73,3 +73,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# ログイン関連の設定
+LOGIN_REDIRECT_URL = "/quotes/"  # ログイン後のリダイレクト先
+LOGOUT_REDIRECT_URL = "/quotes/"  # ログアウト後のリダイレクト先
