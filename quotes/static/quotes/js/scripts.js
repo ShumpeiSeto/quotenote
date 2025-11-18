@@ -1,6 +1,8 @@
 let count = 0;
 const good_btn = document.querySelector(".good-btn");
 const good_count = document.querySelector(".good-count");
+// いいね機能：現在はフロントエンドのみのモック実装（見た目だけのデモ）です。
+// サーバー側への保存処理はまだ実装されていません。
 if (good_btn) {
   good_btn.addEventListener("click", function (e) {
     e.preventDefault();
@@ -10,8 +12,10 @@ if (good_btn) {
   });
 }
 
-// タイトル補完を実装予定
-// いったん空にしておくが使用する際に入力し*の方を有効にする
+// Google Books APIを使用したタイトル・著者の自動補完機能を実装予定。
+// 現在はロジックが未完成（変数keyword, authorが未定義など）のため動作しません。
+// 実装時はAPIキーを設定し、非同期処理を完成させる必要があります。
+
 const API_KEY = "";
 // const API_KEY = "YOUR_API_KEY_HERE" --- * ;
 
