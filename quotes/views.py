@@ -9,6 +9,7 @@ from .forms import QuoteForm, BookForm, SignUpForm
 from django.views import View
 from django.views.generic import ListView
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 
 # Create your views here.
 
@@ -57,6 +58,8 @@ def create(request):
 @login_required
 def edit(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
+    if quote != request.user:
+        raise PermissionDenied("この操作を行う権限がありません。")
     if request.method == "POST":
         form = QuoteForm(request.user, request.POST, instance=quote)
         if form.is_valid():
@@ -72,6 +75,8 @@ def edit(request, pk):
 @login_required
 def delete(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
+    if quote != request.user:
+        raise PermissionDenied("この操作を行う権限がありません。")
     if request.method == "POST":
         quote.delete()
         messages.success(request, "引用が削除されました")
