@@ -11,6 +11,10 @@ SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-changeme")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".railway.app"]
 
+# Railwayのための設定
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.railway.app",
+]
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
