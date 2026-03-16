@@ -58,7 +58,7 @@ def create(request):
 @login_required
 def edit(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
-    if quote != request.user:
+    if quote.user != request.user:
         raise PermissionDenied("この操作を行う権限がありません。")
     if request.method == "POST":
         form = QuoteForm(request.user, request.POST, instance=quote)
@@ -75,7 +75,7 @@ def edit(request, pk):
 @login_required
 def delete(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
-    if quote != request.user:
+    if quote.user != request.user:
         raise PermissionDenied("この操作を行う権限がありません。")
     if request.method == "POST":
         quote.delete()
