@@ -20,20 +20,22 @@
                 
                 <!-- ナビゲーション -->
                 <nav>
-                    <ul class="flex space-x-4 list-none items-center">
+                    <ul class="flex space-x-2 list-none items-center">
                         {% if user.is_authenticated %}
                             <!-- ホーム -->
-                            <li>
+                            <!--
+                             <li>
                                 <a href="{% url 'quotes:index' %}" 
                                    class="text-white hover:text-gray-200 px-3 py-2 rounded transition font-medium">
                                     🏠 ホーム
                                 </a>
                             </li>
+                            -->
                             
                             <!-- フォロー中 -->
                             <li>
                                 <a href="{% url 'quotes:follow-list' %}" 
-                                   class="text-white hover:text-gray-200 px-3 py-2 rounded transition font-medium">
+                                   class="text-white hover:text-gray-200 px-2 py-2 rounded transition font-medium">
                                     👥 フォロー中
                                 </a>
                             </li>
@@ -41,7 +43,7 @@
                             <!-- 引用の登録 -->
                             <li>
                                 <a href="{% url 'quotes:create' %}" 
-                                   class="text-white bg-green-600 hover:bg-green-500 px-4 py-2 rounded transition font-medium">
+                                   class="text-white bg-green-600 hover:bg-green-500 px-2 py-2 rounded transition font-medium">
                                     ✍️ 引用登録
                                 </a>
                             </li>
@@ -49,14 +51,14 @@
                             <!-- 本の登録 -->
                             <li>
                                 <a href="{% url 'quotes:createbook' %}" 
-                                   class="text-white bg-purple-600 hover:bg-purple-500 px-4 py-2 rounded transition font-medium">
+                                   class="text-white bg-purple-600 hover:bg-purple-500 px-2 py-2 rounded transition font-medium">
                                     📖 本登録
                                 </a>
                             </li>
                             
                             <!-- ユーザー名表示 -->
                             <li>
-                                <span class="text-white bg-blue-600 px-4 py-2 rounded font-medium">
+                                <span class="text-white bg-blue-600 px-2 py-2 rounded font-medium">
                                     🧔 {{ user.username }}
                                 </span>
                             </li>
@@ -66,7 +68,7 @@
                                 <form method="post" action="{% url 'quotes:logout' %}" class="inline">
                                     {% csrf_token %}
                                     <button type="submit" 
-                                            class="text-white bg-red-600 hover:bg-red-500 px-4 py-2 rounded transition font-medium">
+                                            class="text-white bg-red-600 hover:bg-red-500 px-2 py-2 rounded transition font-medium">
                                         🚪 ログアウト
                                     </button>
                                 </form>
